@@ -1525,7 +1525,7 @@
                 '';
               };
 
-              draw-behind-windows = optional types.bool true // {
+              draw-behind-window = optional types.bool true // {
                 description = ''
                   Whether to draw shadows behind windows, or only around them.
                 '';
