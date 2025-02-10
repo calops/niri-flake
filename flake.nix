@@ -409,6 +409,10 @@
           type = nixpkgs.lib.types.package;
           default = (make-package-set pkgs).niri-stable;
         };
+        autoImportHomeModule = nixpkgs.lib.mkOption {
+          type = nixpkgs.lib.types.bool;
+          default = true;
+        };
       };
 
       options.niri-flake.cache.enable = nixpkgs.lib.mkOption {
@@ -482,11 +486,9 @@
         })
         (nixpkgs.lib.optionalAttrs (options ? home-manager) {
           home-manager.sharedModules =
-            [
-              self.homeModules.config
-              {programs.niri.package = nixpkgs.lib.mkForce cfg.package;}
-            ]
-            ++ nixpkgs.lib.optionals (options ? stylix) [self.homeModules.stylix];
+            [{programs.niri.package = nixpkgs.lib.mkForce cfg.package;}]
+            ++ nixpkgs.lib.optional (cfg.autoImportHomeModule) self.homeModules.config
+            ++ nixpkgs.lib.optional (cfg.autoImportHomeModule && (options ? stylix)) self.homeModules.stylix;
         })
       ];
     };
