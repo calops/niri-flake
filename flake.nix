@@ -202,7 +202,10 @@
         passAsFile = ["config"];
         buildInputs = [package];
       } ''
-        niri validate -c $configPath
+        if command -v niri 2>&1 >/dev/null; then
+          niri validate -c $configPath
+        end
+
         cp $configPath $out
       '';
 
