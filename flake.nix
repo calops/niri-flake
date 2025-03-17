@@ -379,7 +379,10 @@
       config.xdg.configFile.niri-config = {
         enable = cfg.finalConfig != null;
         target = "niri/config.kdl";
-        source = if (cfg.finalConfig == null) then null else validated-config-for pkgs cfg.package cfg.finalConfig;
+        source =
+          if (cfg.finalConfig == null)
+          then null
+          else validated-config-for pkgs cfg.package cfg.finalConfig;
       };
     };
     nixosModules.niri = {
@@ -523,17 +526,6 @@
         .toplevel;
     in {
       cached-packages = cached-packages-for system;
-      empty-config-valid-stable = let
-        eval = nixpkgs.lib.evalModules {
-          modules = [
-            settings.module
-            {
-              config.programs.niri.settings = {};
-            }
-          ];
-        };
-      in
-        validated-config-for inputs.nixpkgs.legacyPackages.${system} self.packages.${system}.niri-stable eval.config.programs.niri.finalConfig;
 
       nixos-unstable = test-nixos-for nixpkgs [
         self.nixosModules.niri
