@@ -381,8 +381,8 @@
 
       options.programs.niri = {
         package = nixpkgs.lib.mkOption {
-          type = nixpkgs.lib.types.package;
-          default = (make-package-set pkgs).niri-stable;
+          type = nixpkgs.lib.types.nullOr nixpkgs.lib.types.package;
+          default = null;
         };
       };
 
@@ -400,7 +400,6 @@
     };
     nixosModules.niri = {
       config,
-      options,
       pkgs,
       ...
     }: let
