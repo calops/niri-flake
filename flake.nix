@@ -395,7 +395,7 @@
       config.xdg.configFile.niri-config = {
         enable = cfg.finalConfig != null;
         target = "niri/config.kdl";
-        source = validated-config-for pkgs cfg.package cfg.finalConfig;
+        source = if (cfg.finalConfig == null) then null else validated-config-for pkgs cfg.package cfg.finalConfig;
       };
     };
     nixosModules.niri = {
